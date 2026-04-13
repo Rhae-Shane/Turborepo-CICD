@@ -1,10 +1,11 @@
 {
   "name": "db",
-  "module": "index.ts",
   "type": "module",
+  "types": "./index.d.ts",
+  "main": "./index.js",
   "exports": {
-    ".": "./index.ts",
-    ".client": "./index.ts"
+    ".": "./index.js",
+    ".client": "./index.js"
   },
   "devDependencies": {
     "@types/bun": "latest"
