@@ -4,14 +4,16 @@
   "type": "module",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/dotenv": "^8.2.3"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
     "@types/express": "^5.0.6",
-    "express": "^5.2.1",
-    "db": "*"
+    "db": "*",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
   }
 }

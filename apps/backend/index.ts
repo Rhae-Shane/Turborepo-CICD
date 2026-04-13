@@ -1,16 +1,21 @@
 import { use } from './../../node_modules/.bun/effect@3.20.0/node_modules/effect/src/Scope';
+
+import dotenv from "dotenv";
 import express  from "express";
+
 
 import { prisma } from "db";
 
 const app = express();
-
+dotenv.config();
 app.use(express.json());
 
 app.get("/users", async (req, res) => {
+  console.log("Received request to fetch users");
     try {
+      console.log("Fetching users from database...");
         const users = await prisma.user.findMany(); 
-    res.json(users);
+        res.json(users);
 
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch users" });
@@ -20,6 +25,8 @@ app.get("/users", async (req, res) => {
 
 
 app.post("/users", async (req, res) => {
+  console.log("DB URL:", process.env.DATABASE_URL);
+ 
   try {
     const { name, email } = req.body;
 
@@ -28,13 +35,14 @@ app.post("/users", async (req, res) => {
         error: "Name and email are required",
       });
     }
-
+    console.log("Creating new user with email:", email);
     const newUser = await prisma.user.create({
       data: {
         name,
         email,
       },
     });
+    console.log("User created successfully:", newUser);
 
     return res.status(201).json(newUser);
 
