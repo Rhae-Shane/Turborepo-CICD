@@ -1,11 +1,11 @@
-name: Deloy Websocket
+name: DEPLOY  WEBSOCKET
 
 on:
   push:
     branches: [main]
 
 jobs:
-    deply:
+    build:
         runs-on: ubuntu-latest
 
         steps:
