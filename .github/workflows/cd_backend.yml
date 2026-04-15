@@ -25,3 +25,16 @@ jobs:
           file: ./docker/Dockerfile.backend
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
+      - name: Deploy to Server
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
+          chmod 600 ~/ssh_key
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.60.94.207 << 'EOF'
+            docker stop backend || true
+            docker rm backend || true
+
+            docker run -d -p 8080:8080 \
+              --name backend \
+              --restart unless-stopped \
+              rhaeshane/backend:${{ github.sha }}
+          EOF

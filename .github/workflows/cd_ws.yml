@@ -25,3 +25,16 @@ jobs:
                 file: ./docker/Dockerfile.ws
                 push: true
                 tags: ${{ secrets.DOCKER_USERNAME }}/websocket:${{ github.sha }}
+            - name: Deploy to Server
+              run: |  
+                echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
+                chmod 600 ~/ssh_key
+                ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.60.94.207 << 'EOF'
+                  docker stop websocket || true
+                  docker rm websocket || true
+
+                  docker run -d -p 8081:8081 \
+                    --name websocket \
+                    --restart unless-stopped \
+                    rhaeshane/websocket:${{ github.sha }}
+                EOF

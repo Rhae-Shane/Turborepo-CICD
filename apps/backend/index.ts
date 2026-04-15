@@ -22,6 +22,18 @@ app.get("/users", async (req, res) => {
     }
     
 });
+app.get("/health", async (req, res) => {
+  console.log("Received request to fetch health status");
+    try {
+      console.log("Fetching health status from database...");
+      
+        res.json({ status: "ok" });
+
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch health status" });
+    }
+    
+});
 
 
 app.post("/users", async (req, res) => {

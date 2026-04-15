@@ -2,6 +2,7 @@ import { prisma } from "db";
 
 Bun.serve({
   port: 8081,
+  hostname: "0.0.0.0",
 
   fetch(req, server) {
     if (server.upgrade(req)) return;

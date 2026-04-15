@@ -27,5 +27,17 @@ jobs:
                   - DATABASE_URL=${{ secrets.DATABASE_URL }}
                 push: true
                 tags: ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }}
+            - name: Deploy to Server
+              run: |
+                echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
+                chmod 600 ~/ssh_key
+                ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.60.94.207 << 'EOF'
+                  docker stop frontend || true
+                  docker rm frontend || true
 
-              
+                  docker run -d -p 3000:3000 \
+                    --name frontend \
+                    --restart unless-stopped \
+                    rhaeshane/frontend:${{ github.sha }}
+                EOF
+                    
