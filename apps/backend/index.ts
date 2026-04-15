@@ -32,7 +32,7 @@ app.get("/health", async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch health status" });
     }
-    
+    //eror solved
 });
 
 
